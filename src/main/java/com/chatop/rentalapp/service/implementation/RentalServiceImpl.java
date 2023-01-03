@@ -18,4 +18,9 @@ public class RentalServiceImpl implements RentalService {
     public List<Rental> findAll() {
         return rentalRepository.findAll();
     }
+
+    @Override
+    public Optional<Rental> findById(int id) {
+        return rentalRepository.findById(id);
+    }
 }
