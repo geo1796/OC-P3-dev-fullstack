@@ -14,6 +14,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
@@ -49,5 +50,13 @@ public class AuthController {
         User newUser = userDetailsService.register(registerRequest);
         String jwt = jwtUtil.generateTokenFromEmail(newUser.getEmail());
         return ResponseEntity.ok(new LoginResponse(jwt));
+    }
+
+    @GetMapping("/me")
+    ResponseEntity<?> me() {
+        UsernamePasswordAuthenticationToken authentication =
+                (UsernamePasswordAuthenticationToken) SecurityContextHolder.getContext().getAuthentication();
+        User user = (User) authentication.getPrincipal();
+        return ResponseEntity.ok(user);
     }
 }
