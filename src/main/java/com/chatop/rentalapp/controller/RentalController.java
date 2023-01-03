@@ -4,7 +4,6 @@ import com.chatop.rentalapp.dto.response.RentalResponse;
 import com.chatop.rentalapp.mapper.RentalMapper;
 import com.chatop.rentalapp.model.Rental;
 import com.chatop.rentalapp.model.User;
-import com.chatop.rentalapp.service.MyUserDetailsService;
 import com.chatop.rentalapp.service.RentalService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -25,7 +24,6 @@ import java.util.Optional;
 public class RentalController {
     private RentalService rentalService;
     private RentalMapper rentalMapper;
-    private MyUserDetailsService userDetailsService;
 
     @GetMapping
     ResponseEntity<?> getAll() {
