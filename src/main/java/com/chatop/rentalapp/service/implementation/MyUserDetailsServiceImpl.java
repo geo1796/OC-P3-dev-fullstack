@@ -1,5 +1,6 @@
 package com.chatop.rentalapp.service.implementation;
 
+import com.chatop.rentalapp.dto.request.RegisterRequest;
 import com.chatop.rentalapp.model.User;
 import com.chatop.rentalapp.repository.UserRepository;
 import com.chatop.rentalapp.service.MyUserDetailsService;
@@ -46,4 +47,18 @@ public class MyUserDetailsServiceImpl implements MyUserDetailsService {
         return userRepository.getByEmail(email);
     }
 
+    @Override
+    public Optional<User> findByEmail(String email) {
+        return userRepository.findByEmail(email);
+    }
+
+    @Override
+    public User register(RegisterRequest registerRequest) {
+        User newUser = User.builder()
+                .name(registerRequest.getName())
+                .email(registerRequest.getEmail())
+                .password(passwordEncoder.encode(registerRequest.getPassword()))
+                .build();
+        return userRepository.save(newUser);
+    }
 }
