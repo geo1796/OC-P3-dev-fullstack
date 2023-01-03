@@ -64,4 +64,27 @@ public class RentalController {
 
         return ResponseEntity.ok(Map.of("message", "Rental created !"));
     }
+
+    @PutMapping("/{id}")
+    ResponseEntity<?> update(@RequestParam("name") String name,
+                             @RequestParam("price") BigDecimal price,
+                             @RequestParam("description") String description,
+                             @RequestParam("surface") BigDecimal surface,
+                             @PathVariable int id) {
+        Optional<Rental> optionalRental = rentalService.findById(id);
+        if (optionalRental.isEmpty()) {
+            return new ResponseEntity<>(
+                    Map.of("message", String.format("rental {id=%s} not found", id)),
+                    HttpStatus.NOT_FOUND
+            );
+        }
+
+        Rental entity = optionalRental.get();
+        entity.setName(name);
+        entity.setPrice(price);
+        entity.setDescription(description);
+        entity.setSurface(surface);
+        rentalService.save(entity);
+        return ResponseEntity.ok(Map.of("message", "Rental updated !"));
+    }
 }
