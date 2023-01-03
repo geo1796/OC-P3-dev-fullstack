@@ -11,4 +11,5 @@ public interface MyUserDetailsService extends UserDetailsService {
     User getByEmail(String email);
     Optional<User> findByEmail(String email);
     User register(RegisterRequest registerRequest);
+    Optional<User> findById(Integer userId);
 }

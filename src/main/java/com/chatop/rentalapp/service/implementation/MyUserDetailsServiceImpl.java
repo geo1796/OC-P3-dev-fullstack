@@ -61,4 +61,9 @@ public class MyUserDetailsServiceImpl implements MyUserDetailsService {
                 .build();
         return userRepository.save(newUser);
     }
+
+    @Override
+    public Optional<User> findById(Integer userId) {
+        return userRepository.findById(userId);
+    }
 }
