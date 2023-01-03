@@ -6,6 +6,8 @@ import com.chatop.rentalapp.service.MessageService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @AllArgsConstructor
 public class MessageServiceImpl implements MessageService {
@@ -14,5 +16,10 @@ public class MessageServiceImpl implements MessageService {
     @Override
     public Message create(Message message) {
         return messageRepository.save(message);
+    }
+
+    @Override
+    public List<Message> findAll() {
+        return messageRepository.findAll();
     }
 }

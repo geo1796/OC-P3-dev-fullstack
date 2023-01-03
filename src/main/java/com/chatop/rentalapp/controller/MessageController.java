@@ -1,6 +1,8 @@
 package com.chatop.rentalapp.controller;
 
 import com.chatop.rentalapp.dto.request.MessageRequest;
+import com.chatop.rentalapp.dto.response.MessageResponse;
+import com.chatop.rentalapp.mapper.MessageMapper;
 import com.chatop.rentalapp.model.Message;
 import com.chatop.rentalapp.model.Rental;
 import com.chatop.rentalapp.model.User;
@@ -11,11 +13,9 @@ import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -27,6 +27,7 @@ public class MessageController {
     private MessageService messageService;
     private RentalService rentalService;
     private MyUserDetailsService userDetailsService;
+    private MessageMapper messageMapper;
 
     @PostMapping
     ResponseEntity<?> postMessage(@Valid @RequestBody MessageRequest messageRequest) {
@@ -54,5 +55,11 @@ public class MessageController {
                 .build());
 
         return new ResponseEntity<>(Map.of("message", "Message sent with success"), HttpStatus.OK);
+    }
+
+    @GetMapping
+    ResponseEntity<List<MessageResponse>> getAll() {
+        List<MessageResponse> messages = messageMapper.toDtoList(messageService.findAll());
+        return ResponseEntity.ok(messages);
     }
 }
