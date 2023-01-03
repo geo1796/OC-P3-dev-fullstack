@@ -1,5 +1,6 @@
 package com.chatop.rentalapp.controller;
 
+import com.chatop.rentalapp.mapper.UserMapper;
 import com.chatop.rentalapp.model.User;
 import com.chatop.rentalapp.service.MyUserDetailsService;
 import lombok.AllArgsConstructor;
@@ -18,6 +19,7 @@ import java.util.Optional;
 @RequestMapping("/user")
 public class UserController {
     private MyUserDetailsService userDetailsService;
+    private UserMapper userMapper;
 
     @GetMapping("/{id}")
     ResponseEntity<?> getById(@PathVariable int id) {
@@ -28,6 +30,6 @@ public class UserController {
                     HttpStatus.NOT_FOUND
             );
         }
-        return ResponseEntity.ok(optionalUser.get());
+        return ResponseEntity.ok(userMapper.toDto(optionalUser.get()));
     }
 }

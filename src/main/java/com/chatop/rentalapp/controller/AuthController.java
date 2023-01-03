@@ -3,6 +3,7 @@ package com.chatop.rentalapp.controller;
 import com.chatop.rentalapp.dto.request.RegisterRequest;
 import com.chatop.rentalapp.dto.request.LoginRequest;
 import com.chatop.rentalapp.dto.response.LoginResponse;
+import com.chatop.rentalapp.mapper.UserMapper;
 import com.chatop.rentalapp.model.User;
 import com.chatop.rentalapp.service.MyUserDetailsService;
 import com.chatop.rentalapp.utils.JwtUtil;
@@ -27,6 +28,7 @@ public class AuthController {
     private MyUserDetailsService userDetailsService;
     private DaoAuthenticationProvider authenticationProvider;
     private JwtUtil jwtUtil;
+    private UserMapper userMapper;
 
     @PostMapping("/login")
     ResponseEntity<?> login(@RequestBody @Valid LoginRequest loginRequest) {
@@ -57,6 +59,6 @@ public class AuthController {
         UsernamePasswordAuthenticationToken authentication =
                 (UsernamePasswordAuthenticationToken) SecurityContextHolder.getContext().getAuthentication();
         User user = (User) authentication.getPrincipal();
-        return ResponseEntity.ok(user);
+        return ResponseEntity.ok(userMapper.toDto(user));
     }
 }
