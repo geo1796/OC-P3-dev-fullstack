@@ -8,4 +8,5 @@ import java.util.Optional;
 public interface RentalService {
     List<Rental> findAll();
     Optional<Rental> findById(int id);
+    Rental save(Rental rental);
 }

@@ -23,4 +23,9 @@ public class RentalServiceImpl implements RentalService {
     public Optional<Rental> findById(int id) {
         return rentalRepository.findById(id);
     }
+
+    @Override
+    public Rental save(Rental rental) {
+        return rentalRepository.save(rental);
+    }
 }
