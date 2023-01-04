@@ -64,7 +64,11 @@ public class WebSecurityConfig {
                 .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
                 .authorizeHttpRequests((authz) -> authz
-                        .requestMatchers("/auth/login/**", "/auth/register/**").permitAll()
+                        .antMatchers("/auth/login/**",
+                                "/auth/register/**",
+                                "/swagger-ui/**",
+                                "/swagger-resources/**",
+                                "/v2/api-docs/**").permitAll()
                         .anyRequest().authenticated()
                 )
                 .httpBasic(withDefaults());

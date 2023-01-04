@@ -1,5 +1,6 @@
 package com.chatop.rentalapp.controller;
 
+import com.chatop.rentalapp.dto.response.UserResponse;
 import com.chatop.rentalapp.mapper.UserMapper;
 import com.chatop.rentalapp.model.User;
 import com.chatop.rentalapp.service.MyUserDetailsService;
@@ -11,7 +12,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Map;
 import java.util.Optional;
 
 @RestController
@@ -22,11 +22,10 @@ public class UserController {
     private UserMapper userMapper;
 
     @GetMapping("/{id}")
-    ResponseEntity<?> getById(@PathVariable int id) {
+    ResponseEntity<UserResponse> getById(@PathVariable int id) {
         Optional<User> optionalUser = userDetailsService.findById(id);
         if (optionalUser.isEmpty()) {
             return new ResponseEntity<>(
-                    Map.of("message", String.format("user {id=%s} not found", id)),
                     HttpStatus.NOT_FOUND
             );
         }

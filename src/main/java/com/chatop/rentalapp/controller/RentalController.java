@@ -1,5 +1,7 @@
 package com.chatop.rentalapp.controller;
 
+import com.chatop.rentalapp.dto.response.MessageResponse;
+import com.chatop.rentalapp.dto.response.RentalDto;
 import com.chatop.rentalapp.dto.response.RentalResponse;
 import com.chatop.rentalapp.mapper.RentalMapper;
 import com.chatop.rentalapp.model.Rental;
@@ -14,8 +16,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.math.BigDecimal;
-import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 @RestController
@@ -26,25 +26,24 @@ public class RentalController {
     private RentalMapper rentalMapper;
 
     @GetMapping
-    ResponseEntity<?> getAll() {
-        List<RentalResponse> rentals = rentalMapper.toDtoList(rentalService.findAll());
-        return ResponseEntity.ok(Map.of("rentals", rentals));
+    ResponseEntity<RentalResponse> getAll() {
+        RentalResponse rentals = rentalMapper.toDto(rentalService.findAll());
+        return ResponseEntity.ok(rentals);
     }
 
     @GetMapping("/{id}")
-    ResponseEntity<?> getById(@PathVariable int id) {
+    ResponseEntity<RentalDto> getById(@PathVariable int id) {
         Optional<Rental> optionalRental = rentalService.findById(id);
         if (optionalRental.isEmpty()) {
             return new ResponseEntity<>(
-                    Map.of("message", String.format("rental {id=%s} not found", id)),
                     HttpStatus.NOT_FOUND
             );
         }
-        return ResponseEntity.ok(new RentalResponse(optionalRental.get()));
+        return ResponseEntity.ok(new RentalDto(optionalRental.get()));
     }
 
     @PostMapping(consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
-    ResponseEntity<?> create(@RequestParam("name") String name,
+    ResponseEntity<MessageResponse> create(@RequestParam("name") String name,
                              @RequestParam("price") BigDecimal price,
                              @RequestParam("description") String description,
                              @RequestParam("surface") BigDecimal surface,
@@ -60,19 +59,19 @@ public class RentalController {
                 .owner(owner)
                 .build());
 
-        return ResponseEntity.ok(Map.of("message", "Rental created !"));
+        return ResponseEntity.ok(new MessageResponse("Rental created !"));
     }
 
     @PutMapping("/{id}")
-    ResponseEntity<?> update(@RequestParam("name") String name,
-                             @RequestParam("price") BigDecimal price,
-                             @RequestParam("description") String description,
-                             @RequestParam("surface") BigDecimal surface,
-                             @PathVariable int id) {
+    ResponseEntity<MessageResponse> update(@RequestParam("name") String name,
+                                           @RequestParam("price") BigDecimal price,
+                                           @RequestParam("description") String description,
+                                           @RequestParam("surface") BigDecimal surface,
+                                           @PathVariable int id) {
         Optional<Rental> optionalRental = rentalService.findById(id);
         if (optionalRental.isEmpty()) {
             return new ResponseEntity<>(
-                    Map.of("message", String.format("rental {id=%s} not found", id)),
+                    new MessageResponse(String.format("rental {id=%s} not found", id)),
                     HttpStatus.NOT_FOUND
             );
         }
@@ -83,6 +82,6 @@ public class RentalController {
         entity.setDescription(description);
         entity.setSurface(surface);
         rentalService.save(entity);
-        return ResponseEntity.ok(Map.of("message", "Rental updated !"));
+        return ResponseEntity.ok(new MessageResponse("Rental updated !"));
     }
 }
