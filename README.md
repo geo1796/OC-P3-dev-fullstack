@@ -31,3 +31,6 @@ same in the application.properties file of the Spring Boot project.
 Once MySql is running and the rental database is initialized, you are ready to import the code into an IDE
 of you choice and run the App : ```mvn spring-boot:run```
 
+## Swagger
+
+Once the app is running, the API docs is available at http://localhost:3001/api/swagger-ui/
