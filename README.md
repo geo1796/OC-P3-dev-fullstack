@@ -6,13 +6,15 @@ The following must be installed in order to run the app.
 
 * JDK 17 
 * MySql 8.0.xx 
-* MySql Workbench (Optional) 
+* MySql Workbench (Optional)
+* Node.js 18 & Npm 8 for the local file server
 
 ## Installation
 
 1. Install JDK 17 : https://adoptium.net/temurin/releases/?version=17
 2. Install MySql : https://dev.mysql.com/downloads/installer/
 3. Install MySql Workbench : https://www.mysql.com/products/workbench/
+4. Install Node.js & Npm: https://nodejs.org/en/download/ 
 
 Once MySql is installed, you will be 
 asked to configure the password for the default root account. This code 
@@ -26,10 +28,16 @@ same in the application.properties file of the Spring Boot project.
 2. Start MySql Workbench and use it to connect to the local instance of MySql you just started.
 3. Use MySql Workbench to run the script available at ./database/schema.sql from the root of this project.
 
+## Pictures server configuration
+
+1. Open a terminal & run ````npm install -g http-server````
+2. In the terminal, go to the folder pictures at the root of this project
+3. Run ```http-server ./```
+
 ## Run the app
 
-Once MySql is running and the rental database is initialized, you are ready to import the code into an IDE
-of you choice and run the App : ```mvn spring-boot:run```
+Once MySql is running and the rental database is initialized, you are ready to run the App :   
+```mvn spring-boot:run```
 
 ## Swagger
 

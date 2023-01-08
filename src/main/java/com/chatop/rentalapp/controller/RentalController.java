@@ -5,16 +5,15 @@ import com.chatop.rentalapp.dto.response.RentalDto;
 import com.chatop.rentalapp.dto.response.RentalResponse;
 import com.chatop.rentalapp.mapper.RentalMapper;
 import com.chatop.rentalapp.model.Rental;
-import com.chatop.rentalapp.model.User;
 import com.chatop.rentalapp.service.RentalService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.Optional;
 
@@ -47,17 +46,8 @@ public class RentalController {
                              @RequestParam("price") BigDecimal price,
                              @RequestParam("description") String description,
                              @RequestParam("surface") BigDecimal surface,
-                             @RequestPart("picture") MultipartFile picture) {
-        User owner = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-
-        rentalService.save(Rental.builder()
-                .name(name)
-                .price(price)
-                .picture("https://blog.technavio.org/wp-content/uploads/2018/12/Online-House-Rental-Sites.jpg")
-                .description(description)
-                .surface(surface)
-                .owner(owner)
-                .build());
+                             @RequestPart("picture") MultipartFile picture) throws IOException {
+        rentalService.create(name, description, price, surface, picture);
 
         return ResponseEntity.ok(new MessageResponse("Rental created !"));
     }
